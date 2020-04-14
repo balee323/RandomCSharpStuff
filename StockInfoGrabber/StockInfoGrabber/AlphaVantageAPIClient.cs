@@ -13,7 +13,7 @@ namespace StockInfoGrabber
     class AlphaVantageAPIClient
     {
         //member variables
-        private string _apiKey = "2B6BAS8OQKCU9VKW";
+        private string _apiKey = "Imaginary API KEY";
         private string _apiUrl = "https://www.alphavantage.co/query?";
         private Tuple<TodayStockValue, StockMeta> _stockData;
 
