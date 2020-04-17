@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CoinConvert = TwitterServer1;
+
+
+namespace TwitterServerCsharp
+{
+    class CashToCoinConvert
+    {
+        //Using class that I already created in VB.net earlier
+        CoinConvert.ConvertCoins convert = new CoinConvert.ConvertCoins();
+
+
+        //default constructor
+        public CashToCoinConvert()
+        {
+
+
+        }
+
+
+
+    }
+
+
+
+}

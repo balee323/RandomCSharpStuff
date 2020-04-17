@@ -1,0 +1,288 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Twitterizer;
+using System.Configuration;
+using Newtonsoft.Json;
+using System.IO;
+using System.Windows.Forms;
+
+/// <summary>
+/// Author: Brian Lee
+/// Exposed Methods for Twitterizer wrapper library.
+/// </summary>
+class TwitterizerWrapper
+    {
+
+
+    #region "Fields and Constructor"
+
+    private OAuthTokens tokens; 
+        private string LatestDM = "";
+        private string LastedDMID = "";
+        private string latestDMSender = "";
+
+        /// <summary>
+        /// Default Constructor, populates and creates OAuth Tokens
+        /// </summary>
+        public TwitterizerWrapper()
+        {
+         string consumerKey = ConfigurationManager.AppSettings["ConsumerKey"];
+         string ConsumerSecret = ConfigurationManager.AppSettings["ConsumerSecret"];
+         string AccessToken = ConfigurationManager.AppSettings["AccessToken"];
+         string AccessTokenSecret = ConfigurationManager.AppSettings["AccessTokenSecret"];
+
+         tokens = new OAuthTokens();
+         tokens.ConsumerKey = consumerKey;
+         tokens.ConsumerSecret = ConsumerSecret;
+         tokens.AccessToken = AccessToken;
+         tokens.AccessTokenSecret = AccessTokenSecret;
+        }
+    #endregion
+
+    #region "Properties"
+
+    public string LatestDirectMessage
+    {
+        get
+        {
+            return LatestDM;
+        }       
+    }
+
+
+    public string LatestDirectMsgSender
+    {
+        get
+        {
+            return latestDMSender;
+        }
+    }
+
+    public string LatestDirectMsgID
+    {
+        get
+        {
+            return LastedDMID;
+        }
+    }
+
+
+
+
+    #endregion
+
+    #region "Methods"
+
+
+
+    /// <summary>
+    /// Function for updating twitter status for Authenticated App user. Parameter -> Twitter Status message as String.
+    /// </summary>
+    /// <param name="statusMsg"></param>
+    public void sendTweet(string statusMsg)
+        {
+
+            StatusUpdateOptions statOpions = new StatusUpdateOptions();
+            statOpions.UseSSL = true;
+            statOpions.APIBaseAddress = "http://api.twitter.com/1.1/";
+
+            var response = TwitterStatus.Update(tokens, statusMsg, statOpions);
+
+           // var response = TwitterStatus.Update(tokens, "Test - 9/20");  //error, need ssl
+
+            if (response.Result == Twitterizer.RequestResult.Success)
+            {
+                //log here
+            }
+            else
+            {
+               string error = (response.Result.ToString());
+                //log error
+            }
+        }
+
+
+
+        /// <summary>
+        /// Method for getting raw direct messages (for authenticated Application user)
+        /// use properties to get specific information instead
+        /// </summary>
+        /// <returns></returns>
+        public string GetDirectMessage()
+        {
+
+            Twitterizer.DirectMessagesOptions DMoptions = new DirectMessagesOptions();
+            DMoptions.UseSSL = true;
+            DMoptions.APIBaseAddress = "http://api.twitter.com/1.1/";
+            DMoptions.Count = 1;
+
+
+        string rawMessage = "";
+
+        int retries = 0;
+        bool success = false;
+
+        while (retries < 3 && success == false)
+        {
+            try
+            {
+                var messages = TwitterDirectMessage.DirectMessages(tokens, DMoptions);
+                if (messages != null)
+                {
+                    rawMessage = messages.Content.ToString();
+                }
+                success = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                retries++;
+            }
+        }
+
+        if (retries > 2 || success == false)
+        {
+            System.Environment.Exit(1);
+        }
+
+        
+           cleanString(rawMessage);  //Uses string parsing 
+
+         //  parseJsonString(rawMessage); //uses Json Class method to parse 
+            return "Direct Message: " + LatestDM + "   ||   From: " + latestDMSender; 
+        }
+
+
+
+
+        private void cleanString(string rawMessage)
+        {
+            List<string> tempList = new List<string>();
+          var tempStr = rawMessage.Split('"');
+
+            LatestDM = tempStr[9];
+            LastedDMID = tempStr[5];
+            latestDMSender = tempStr[25];
+        }
+
+
+        /// <summary>
+        /// Private class to parse the raw Json Text file.  Only 1 message is received, so no need to worry with message mixups.
+        /// </summary>
+        /// <param name="JsonString"></param>
+        private void parseJsonString(string JsonString)  //this is overly complex and hard to read....
+        {
+            JsonTextReader reader = new JsonTextReader(new StringReader(JsonString));
+            bool IsMessagePopulated = false;
+            bool IsIDPopulated = false;
+            bool IsSenderPopulated = false;
+
+            try
+            {
+                while (reader.Read())//while still reading = true
+                {
+                    if (reader.Value != null && reader.Value.ToString() == "text" && IsMessagePopulated == false)
+                    {
+                        reader.Read(); //go to next token
+                        LatestDM = reader.Value.ToString();
+                        IsMessagePopulated = true;
+                    }
+
+                    if (reader.Value != null && reader.Value.ToString() == "sender")
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.Value != null && reader.Value.ToString() == "screen_name" && IsSenderPopulated == false)
+                            {
+                                reader.Read(); //go to next token
+                                latestDMSender = reader.Value.ToString();
+                                IsSenderPopulated = true;
+                            }
+                            if (reader.Value != null && reader.Value.ToString() == "id_str" && IsIDPopulated == false)
+                            {
+                                reader.Read(); //go to next token
+                                LastedDMID = reader.Value.ToString();
+                                IsIDPopulated = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+
+    }
+
+
+        /// <summary>
+        /// Function for replying to last Direct Message
+        /// </summary>
+        /// <param name="message"></param>
+        public void sendDirectMessage(string message, string user = "")
+        {
+            DirectMessagesSentOptions DMsendOptions = new DirectMessagesSentOptions();
+            DMsendOptions.UseSSL = true;
+            DMsendOptions.APIBaseAddress = "http://api.twitter.com/1.1/";
+
+            if (user == ""  && latestDMSender != "")
+            {
+                TwitterDirectMessage.Send(tokens, latestDMSender, message, DMsendOptions);
+            }
+
+            else if (latestDMSender != "" && user != "")
+            {
+                TwitterDirectMessage.Send(tokens, user, message, DMsendOptions);
+            }
+        }
+
+
+
+
+    /// <summary>
+    /// Public class for returning tweets from a user
+    /// </summary>
+    /// <param name="ScreenName"></param>
+    /// <returns></returns>
+    public List<string> getUserTweets(string ScreenName)
+    {
+        //TODO -- this is not complete, need to parse the return somehow...
+
+        List<string> tweets = new List<string>();
+
+        UserTimelineOptions options = new UserTimelineOptions();
+        options.ScreenName = "RealDonaldTrump";
+        options.UseSSL = true;
+        options.Count = 15; //get last 15
+        options.APIBaseAddress = "http://api.twitter.com/1.1/";     
+
+        var rawTweets = TwitterTimeline.UserTimeline(tokens, options);
+
+        if (rawTweets != null)
+        {
+            int i = 0;
+            while (i < rawTweets.Content.Count())
+            {
+                tweets.Add(rawTweets.Content);     
+                tweets.Add("==============================");
+                i = i + 1;
+            }
+        }
+        else
+        {
+            tweets.Add("No tweets found for User or user does not exist.");
+        }
+            return tweets;
+    }
+
+#endregion
+
+}
+
