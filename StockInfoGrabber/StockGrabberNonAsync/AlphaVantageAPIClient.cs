@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StockInfoGrabber.Models;
 
-namespace StockInfoGrabber
+namespace StockGrabberNonAsync
 {
     class AlphaVantageAPIClient
     {
@@ -26,9 +26,9 @@ namespace StockInfoGrabber
         //using built-in default contructor for now (using default one, so no code)
 
 
-        public async Task<Tuple<TodayStockValue, StockMeta>> GetLatestStockData(string symbol)
+        public Tuple<TodayStockValue, StockMeta> GetLatestStockData(string symbol)
         {
-            var stockTask = await GetStockPricesAsync(symbol);
+            var stockTask = GetStockPrices(symbol);
             //stockTask.Wait();  //getting back result form async
 
             var rawStockData = stockTask;
@@ -86,7 +86,7 @@ namespace StockInfoGrabber
         }
 
 
-        private async Task<string> GetStockPricesAsync(string symbol)
+        private string GetStockPrices(string symbol)
         {
 
             var client = new HttpClient();
@@ -98,7 +98,10 @@ namespace StockInfoGrabber
 
                 var request = requestUriBuilder.Uri;
 
-                var response = await client.GetStringAsync(request);
+                var responseTask = client.GetStringAsync(request);
+                responseTask.Wait();  //wait on task to complete
+
+                var response = responseTask.Result;
 
                 return response;
             }         
