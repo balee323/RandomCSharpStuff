@@ -156,6 +156,7 @@ namespace YahooEmailDeleter
                 catch (Exception e)
                 {
                     ; //poop.. it will be ok!  It's just deleting your valuable emails :)
+                    _driver.Navigate().Refresh();
                 }
   
 

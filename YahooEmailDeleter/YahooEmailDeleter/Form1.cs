@@ -23,9 +23,7 @@ namespace YahooEmailDeleter
         {
             _tokenSource = new CancellationTokenSource();
             _cancellationToken = _tokenSource.Token;
-
-            busySpinner.Visible = true;
-
+     
             var userName = txtUserName.Text;
             var password = txtPassword.Text;
 
@@ -39,6 +37,8 @@ namespace YahooEmailDeleter
             }
             else
             {
+                busySpinner.Visible = true;
+
                 _seleniumYahooDeleteManager = new SeleniumYahooDeleteManager(userName: userName, password: password, showMessage, _cancellationToken);
                 _seleniumYahooDeleteManager.StartProcess();
             }
