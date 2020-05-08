@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{89D0B7CF-BCFF-4D1F-8602-E18AFBF64E89}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ConnorSoundmachine</RootNamespace>
+    <AssemblyName>ConnorSoundmachine</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Air Horn-SoundBible.com-1561808001.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Baby_Boy_Laugh-Mike_Koenig-1622212130.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Belch-Kevan-136688254.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cartoon-birds-2_daniel-simion.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chipmunks_sound-Uday-1052330468.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Commedy_Punch-Poorna_RAo-1017287436.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dixie-horn_daniel-simion.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fart-Common-Everyday-Fart_Mike-Koenig.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fart-Squeeze-Yer-Knees_Mike-Koenig.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Funny_Boy_Laugh-Mike_Koenig-1446565974.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\funny-voices-daniel_simon.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Giggles-SoundBible.com-710042657.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Iguana_Farts_In_A_Bathtub-Iguana_Farts-1423164123.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Im_Superman-Mike_Koenig-1533945331.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kid_Laugh-Mike_Koenig-1673908713.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Laughter-Mike_Koenig-360558723.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PINGAS-Richard-89282878.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sick_Villain-Peter_De_Lang-1465872262.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Silly_Farts-Joe-1473367952.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Silly_Snoring-Snore_Man-618028931.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Uuuuuu-Paula-1357936016.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Your_Mom-Kevan-293391338.wav" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
