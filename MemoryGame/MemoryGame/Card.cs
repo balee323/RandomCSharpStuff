@@ -21,7 +21,5 @@ namespace MemoryGame
 
         public Image BackOfCard { get; set; }
 
-
-
     }
 }

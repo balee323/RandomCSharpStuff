@@ -17,41 +17,15 @@ namespace MemoryGame
             InitializeComponent();
         }
 
+       private GameEngine _gameEngine;
 
-        private List<Image> _imageList = new List<Image>();
-
-
-
+    
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            _imageList.Add(MemoryGame.Properties.Resources._1);
-            _imageList.Add(MemoryGame.Properties.Resources._1);
-            _imageList.Add(MemoryGame.Properties.Resources._2);
-            _imageList.Add(MemoryGame.Properties.Resources._2);
-            _imageList.Add(MemoryGame.Properties.Resources._3);
-            _imageList.Add(MemoryGame.Properties.Resources._3);
-            _imageList.Add(MemoryGame.Properties.Resources._4);
-            _imageList.Add(MemoryGame.Properties.Resources._4);
-            _imageList.Add(MemoryGame.Properties.Resources._5);
-            _imageList.Add(MemoryGame.Properties.Resources._5);
-            _imageList.Add(MemoryGame.Properties.Resources._6);
-            _imageList.Add(MemoryGame.Properties.Resources._6);
-
-
-
-            foreach (Control item in this.Controls)
-            {
-                if (item is PictureBox)
-                {
-                    var card = (Card)item;
-                    card.BackOfCard = _imageList[1];
-                }
-                
-
-            }
-
-
+            _gameEngine = new GameEngine(this);
+            _gameEngine.StartGame();
+         
         }
 
         private void FlipCard(object item)
