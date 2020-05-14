@@ -28,72 +28,79 @@ namespace MemoryGame
          
         }
 
-        private void FlipCard(object item)
-        {
-            var card = (Card)item;
-            card.Image = card.BackOfCard;
-
-        }
+    
 
 
         private void card1_Click(object sender, EventArgs e)
-        { 
-            FlipCard(sender);
+        {
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card2_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card3_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card4_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card5_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card6_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card7_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card8_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card9_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card10_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card11_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
 
         private void card12_Click(object sender, EventArgs e)
         {
-            FlipCard(sender);
+            _gameEngine.FlipCard(sender);
+
         }
     }
 }
