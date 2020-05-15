@@ -66,6 +66,11 @@ namespace MemoryGame
         {
             var card = (Card)item;
 
+            if (card.IsMatched)
+            {
+                return;
+            }
+
             _cardsFlipped++;
 
             if (_cardsFlipped > 3)
