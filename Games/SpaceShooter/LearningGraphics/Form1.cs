@@ -24,7 +24,7 @@ namespace LearningGraphics
 
         public Form1()
         {
-            //this.DoubleBuffered = true; // to reduce/prevent flickering
+            this.DoubleBuffered = true; // to reduce/prevent flickering
             this.BackColor = Color.Black;
             InitializeComponent();
         }

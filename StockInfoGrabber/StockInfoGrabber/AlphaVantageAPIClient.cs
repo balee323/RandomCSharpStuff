@@ -1,48 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using StockInfoGrabber.Models;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace StockInfoGrabber
 {
     class AlphaVantageAPIClient
     {
-        //member variables
-        private string _apiKey = "Imaginary API KEY";
+
+        private string _apiKey = "ZYVHAG3MBHY6QVMS";
         private string _apiUrl = "https://www.alphavantage.co/query?";
         private Tuple<TodayStockValue, StockMeta> _stockData;
 
-
-        //public properties
         public TodayStockValue CurrentStockValue { get; set; } = new TodayStockValue();
         public StockMeta StockMetaInfo { get; set; } = new StockMeta();
 
 
-        //using built-in default contructor for now (using default one, so no code)
-
-
         public async Task<Tuple<TodayStockValue, StockMeta>> GetLatestStockData(string symbol)
         {
-            var stockTask = await GetStockPricesAsync(symbol);
-            //stockTask.Wait();  //getting back result form async
+            var rawStockData = await GetStockPricesAsync(symbol);
 
-            var rawStockData = stockTask;
-
-            //dynamic stockDataJSONObj = Newtonsoft.Json.JsonConvert.DeserializeObject(rawStockData);
             dynamic stockDataJSONObj = JObject.Parse(rawStockData);
 
-            //var latestData = stockDataJSONObj["Time Series (Daily)"]; //works
-
-            string today = GetEasternDate();
+            //string today = GetEasternDate();
+            string today = DateTime.Now.AddDays(-7).ToString("2022-01-21");
 
             var stockMetaInfo = stockDataJSONObj["Meta Data"];
-
-
             var stockLatestData = stockDataJSONObj["Time Series (Daily)"][today];
 
             Mapper(stockMetaInfo, stockLatestData);
@@ -75,12 +59,10 @@ namespace StockInfoGrabber
                 CurrentStockValue.Close = stockLatestData["4. close"];
                 CurrentStockValue.Volume = stockLatestData["5. volume"];
             }
-#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception e)
-#pragma warning restore CS0168 // Variable is declared but never used
             {
                 ;
-                //error...
+                throw;
             }
 
         }
@@ -113,8 +95,6 @@ namespace StockInfoGrabber
             DateTime easternTime = TimeZoneInfo.ConvertTimeFromUtc(timeUtc, easternZone);
 
             var today = string.Empty;
-
-            //var today = DateTime.Today.Year.ToString() + "-" + DateTime.Today.ToString("MM") + "-" + (DateTime.Today.Day -1).ToString();
 
             var isSunday = easternTime.DayOfWeek == DayOfWeek.Sunday;
             var isSaturday = easternTime.DayOfWeek == DayOfWeek.Saturday;
